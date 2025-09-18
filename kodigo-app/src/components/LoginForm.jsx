@@ -1,45 +1,67 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import LoadingSpinner from './LoadingSpinner';
 
 const LoginForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const { login: loginUser } = useAuth();
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const onSubmit = async (data) => {
-    const result = await loginUser(data.username, data.password);
-    if (result.success) {
-      alert('Login exitoso!');
-      navigate('/');
-    } else {
-      alert(result.error);
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/login', formData);
+      const { token } = response.data;
+      login(token);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Credenciales inválidas. Intenta nuevamente.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Username:</label>
+    <form onSubmit={handleSubmit} className="auth-form">
+      <div className="form-group">
+        <label>Email</label>
         <input
-          {...register('username', { required: 'Username es requerido' })}
-          type="text"
-          style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+          type="email"
+          name="email"
+          placeholder="ejemplo@correo.com"
+          value={formData.email}
+          onChange={handleChange}
+          required
         />
-        {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
       </div>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Password:</label>
+
+      <div className="form-group">
+        <label>Contraseña</label>
         <input
-          {...register('password', { required: 'Password es requerido' })}
           type="password"
-          style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+          name="password"
+          placeholder="••••••••"
+          value={formData.password}
+          onChange={handleChange}
+          required
         />
-        {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
       </div>
-      <button type="submit" style={{ width: '100%', padding: '10px', background: '#4facfe', color: 'white', border: 'none', borderRadius: '4px' }}>
-        Iniciar Sesión
+
+      {error && <p className="form-error">{error}</p>}
+
+      <button type="submit" className="btn btn-primary" disabled={loading}>
+        {loading ? <LoadingSpinner size="small" /> : 'Iniciar Sesión'}
       </button>
     </form>
   );

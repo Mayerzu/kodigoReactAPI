@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from './LoadingSpinner';
 
 const RegisterForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -20,26 +21,34 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Username:</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+      <div className="form-group">
+        <label>Usuario</label>
         <input
-          {...register('username', { required: 'Username es requerido', minLength: { value: 3, message: 'Mínimo 3 caracteres' } })}
+          {...register('username', {
+            required: 'El nombre de usuario es requerido',
+            minLength: { value: 3, message: 'Mínimo 3 caracteres' }
+          })}
           type="text"
-          style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+          placeholder="Tu usuario"
         />
-        {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
+        {errors.username && <p className="form-error">{errors.username.message}</p>}
       </div>
-      <div style={{ marginBottom: '15px' }}>
-        <label>Password:</label>
+
+      <div className="form-group">
+        <label>Contraseña</label>
         <input
-          {...register('password', { required: 'Password es requerido', minLength: { value: 6, message: 'Mínimo 6 caracteres' } })}
+          {...register('password', {
+            required: 'La contraseña es requerida',
+            minLength: { value: 6, message: 'Mínimo 6 caracteres' }
+          })}
           type="password"
-          style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+          placeholder="••••••••"
         />
-        {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+        {errors.password && <p className="form-error">{errors.password.message}</p>}
       </div>
-      <button type="submit" style={{ width: '100%', padding: '10px', background: '#4facfe', color: 'white', border: 'none', borderRadius: '4px' }}>
+
+      <button type="submit" className="btn btn-primary">
         Registrarse
       </button>
     </form>

@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import './styles.css';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();

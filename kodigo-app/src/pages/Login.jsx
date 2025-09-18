@@ -7,11 +7,14 @@ const Login = () => {
   return (
     <div>
       <Header />
-      <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
-        <h2>Iniciar Sesión</h2>
+      <div className="auth-container">
+        <h2 className="auth-title">Iniciar Sesión</h2>
         <LoginForm />
-        <p style={{ textAlign: 'center', marginTop: '20px' }}>
-          ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+        <p className="auth-link-text">
+          ¿No tienes cuenta?{" "}
+          <Link to="/register" className="auth-link">
+            Regístrate
+          </Link>
         </p>
       </div>
     </div>

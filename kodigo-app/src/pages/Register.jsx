@@ -7,11 +7,14 @@ const Register = () => {
   return (
     <div>
       <Header />
-      <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
-        <h2>Crear Nuevo Usuario</h2>
+      <div className="auth-container">
+        <h2 className="auth-title">Crear Nuevo Usuario</h2>
         <RegisterForm />
-        <p style={{ textAlign: 'center', marginTop: '20px' }}>
-          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+        <p className="auth-link-text">
+          ¿Ya tienes cuenta?{" "}
+          <Link to="/login" className="auth-link">
+            Inicia sesión
+          </Link>
         </p>
       </div>
     </div>

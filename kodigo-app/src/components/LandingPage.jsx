@@ -1,30 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
+import BootcampCard from "./BootcampCard";
+import LoadingSpinner from "./LoadingSpinner";
 
 const staticBootcamps = [
   {
     id: 1,
     name: "Java Developer",
-    description: "Aprende Java desde cero hasta un nivel avanzado, incluyendo el desarrollo de aplicaciones backend robustas.",
+    description:
+      "Aprende Java desde cero hasta un nivel avanzado, incluyendo el desarrollo de aplicaciones backend robustas.",
     technologies: ["Java", "Spring Boot", "MySQL"],
-    active: true
+    active: true,
   },
   {
     id: 2,
     name: "Fullstack Jr",
-    description: "Curso orientado a aprender desarrollo Fullstack con ReactJS, Laravel y MySQL.",
+    description:
+      "Curso orientado a aprender desarrollo Fullstack con ReactJS, Laravel y MySQL.",
     technologies: ["ReactJS", "Laravel", "MySQL"],
-    active: true
+    active: true,
   },
   {
     id: 3,
     name: "Data Analytics",
-    description: "Curso de análisis de datos con enfoque en Python, PowerBI y R para generar insights y visualización de datos.",
+    description:
+      "Curso de análisis de datos con enfoque en Python, PowerBI y R para generar insights y visualización de datos.",
     technologies: ["Python", "PowerBI", "R"],
-    active: true
-  }
+    active: true,
+  },
 ];
 
 const LandingPage = () => {
@@ -32,60 +37,149 @@ const LandingPage = () => {
   const [bootcamps, setBootcamps] = useState([]);
   const [loading, setLoading] = useState(false);
 
+
   useEffect(() => {
     if (isAuthenticated) {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      axios.get('http://localhost:3000/api/auth/bootcamps/all', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(response => {
-        setBootcamps(response.data.filter(b => b.active));
-      })
-      .catch(error => console.error('Error fetching bootcamps:', error))
-      .finally(() => setLoading(false));
+      const token = localStorage.getItem("token");
+      axios
+        .get("http://localhost:3000/api/auth/bootcamps/all", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setBootcamps(response.data.filter((b) => b.active));
+        })
+        .catch((error) => console.error("Error fetching bootcamps:", error))
+        .finally(() => setLoading(false));
     } else {
-      setBootcamps(staticBootcamps.filter(b => b.active));
+      setBootcamps(staticBootcamps.filter((b) => b.active));
     }
   }, [isAuthenticated]);
 
   return (
-    <div style={{ fontFamily: 'Arial', maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      <header style={{ textAlign: 'center', background: 'linear-gradient(to right, #4facfe, #00f2fe)', color: 'white', padding: '50px 20px', borderRadius: '10px' }}>
-        <h1>Bienvenido a Kodigo Bootcamps</h1>
-        <p>Transforma tu carrera con nuestros bootcamps intensivos en programación y tecnología.</p>
-        {!isAuthenticated && (
-          <div>
-            <Link to="/register" style={{ margin: '10px', padding: '10px 20px', background: 'white', color: '#4facfe', textDecoration: 'none', borderRadius: '5px' }}>Regístrate</Link>
-            <Link to="/login" style={{ margin: '10px', padding: '10px 20px', background: 'white', color: '#4facfe', textDecoration: 'none', borderRadius: '5px' }}>Inicia Sesión</Link>
-          </div>
-        )}
-      </header>
+    <div className="landing">
 
-      <section style={{ padding: '40px 20px', textAlign: 'center' }}>
-        <h2>Nuestros Bootcamps</h2>
+      <header className="hero">
+  <div className="hero-content">
+
+    <div className="hero-text">
+      <h1 className="hero-title">
+        Transforma tu <span className="highlight">Carrera Tech</span>
+      </h1>
+      <p className="hero-subtitle">
+        Aprende las tecnologías más demandadas del mercado con nuestros
+        bootcamps intensivos. De cero a desarrollador en meses, no años.
+      </p>
+      {!isAuthenticated && (
+        <div className="hero-actions">
+          <Link to="/register" className="btn btn-primary">
+            Comenzar Ahora →
+          </Link>
+          <Link to="/login" className="btn btn-ghost">
+            Inicia Sesión
+          </Link>
+        </div>
+      )}
+    </div>
+
+    {/* Columna derecha: Imagen */}
+    <div className="hero-image">
+      <img
+        src="https://plink.solutions/wp-content/uploads/JAVA-DEV.webp"
+        alt="Bootcamp coding"
+      />
+    </div>
+  </div>
+</header>
+
+
+      {/* ===== Estadísticas ===== */}
+      <section className="stats-section">
+        <div className="stat-card">
+          <h3>3,750+</h3>
+          <p>Estudiantes Graduados</p>
+        </div>
+        <div className="stat-card">
+          <h3>92%</h3>
+          <p>Tasa de Empleabilidad</p>
+        </div>
+        <div className="stat-card">
+          <h3>10,000+++</h3>
+          <p>Proyectos Completados</p>
+        </div>
+        <div className="stat-card">
+          <h3>4.9/5</h3>
+          <p>Calificación Promedio</p>
+        </div>
+      </section>
+
+
+      <section className="why-section">
+        <h2 className="section-title">¿Por qué elegirnos?</h2>
+        <p className="why-subtitle">
+          Nuestra metodología probada ha ayudado a miles de estudiantes a
+          conseguir trabajos en tecnología en tiempo récord.
+        </p>
+
+        <div className="why-grid">
+          <div className="why-card">
+            <h3>⚡ Aprendizaje Acelerado</h3>
+            <img src="https://www.cinconoticias.com/wp-content/uploads/aprendizaje-acelerado.jpg" alt="Aprendizaje Acelerado" />
+            <p>
+              Metodología intensiva diseñada para maximizar tu aprendizaje en el
+              menor tiempo posible.
+            </p>
+          </div>
+          <div className="why-card">
+            <h3>🛠️ Enfoque Práctico</h3>
+            <img src="https://i.pinimg.com/736x/28/ee/1e/28ee1ef707b6d762a9815138328719f1.jpg" alt="Enfoque Práctico" />
+            <p>
+              Proyectos reales desde el primer día. Construye un portafolio
+              mientras aprendes.
+            </p>
+          </div>
+          <div className="why-card">
+            <h3>👩‍🏫 Mentorías Personalizadas</h3>
+            <img src="https://i.pinimg.com/736x/c8/80/70/c88070a5fa7d478a6f1d8f3dbe0556c9.jpg" alt="Mentorías Personalizadas" />
+            <p>
+              Acompañamiento 1:1 con desarrolladores senior de la industria.
+            </p>
+          </div>
+          <div className="why-card">
+            <h3>🎓 Certificación Reconocida</h3>
+            <img src="https://i.pinimg.com/736x/87/4d/fb/874dfbdf19e564c1b381388e50c46c35.jpg" alt="Certificación Reconocida" />
+            <p>
+              Certificados avalados por empresas líderes en tecnología.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Bootcamps ===== */}
+      <section className="bootcamps-section">
+        <h2 className="section-title">Nuestros Bootcamps</h2>
         {loading ? (
-          <p>Cargando bootcamps...</p>
+          <LoadingSpinner />
         ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
-            {bootcamps.map(bootcamp => (
-              <div key={bootcamp.id} style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '10px', width: '300px', background: '#fff', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-                <h3>{bootcamp.name}</h3>
-                <p>{bootcamp.description}</p>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                  {bootcamp.technologies.map(tech => (
-                    <li key={tech} style={{ margin: '5px 0' }}>• {tech}</li>
-                  ))}
-                </ul>
-              </div>
+          <div className="bootcamps-grid">
+            {bootcamps.map((bootcamp) => (
+              <BootcampCard key={bootcamp.id} bootcamp={bootcamp} />
             ))}
           </div>
         )}
-        {isAuthenticated && <Link to="/dashboard" style={{ display: 'block', margin: '20px auto', padding: '10px 20px', background: '#4facfe', color: 'white', textDecoration: 'none', borderRadius: '5px', width: '200px' }}>Ver Dashboard</Link>}
+        {isAuthenticated && (
+          <Link to="/dashboard" className="btn btn-primary dashboard-link">
+            Ver Dashboard →
+          </Link>
+        )}
       </section>
 
-      <footer style={{ textAlign: 'center', padding: '20px', background: '#f0f0f0' }}>
-        <p>&copy; 2025 Kodigo Bootcamps. Todos los derechos reservados.</p>
+
+      <footer className="footer">
+        <p>
+          &copy; {new Date().getFullYear()} Kodigo Bootcamps. Todos los derechos
+          reservados.
+        </p>
       </footer>
     </div>
   );

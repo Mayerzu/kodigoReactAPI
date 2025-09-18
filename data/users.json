@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "username": "nuevo_usuario",
+    "password": "$2a$10$HvsLw7fuW0c6WMkaECEtQ.b52Ecx4Ucrrw2cZeXPb1TbGGaDRKNBG"
+  },
+  {
+    "id": 2,
+    "username": "test",
+    "password": "$2a$10$LISVdD/yPRo6vdwzMFwKQ.VFvb.7ycIIkXCtaRJbyRk2hsj4/Y2Du"
+  },
+  {
+    "id": 3,
+    "username": "Mayerli",
+    "password": "$2a$10$YSBsIaBIKqLTql7izqpeAeyDqu/2G5.U//0SvoS7okiCaQOjbCFAm"
+  }
+]

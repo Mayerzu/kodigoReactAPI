@@ -13,5 +13,15 @@
     "id": 3,
     "username": "Mayerli",
     "password": "$2a$10$YSBsIaBIKqLTql7izqpeAeyDqu/2G5.U//0SvoS7okiCaQOjbCFAm"
+  },
+  {
+    "id": 4,
+    "username": "Azucena",
+    "password": "$2a$10$XBVvvpnm6I5J74C7.enhyumvcemsXE4XwPLKPDOgYUwa4FDLl9L8m"
+  },
+  {
+    "id": 5,
+    "username": "Judith",
+    "password": "$2a$10$4ukFiO1UALa.VXMTaTq92.8OsPVc.qha7L8fx2SntBNZcILpewkw2"
   }
 ]

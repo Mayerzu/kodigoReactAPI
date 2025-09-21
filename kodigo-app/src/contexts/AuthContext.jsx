@@ -50,5 +50,3 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Elimina AuthInitializer ya que la inicialización se maneja en AuthProvider
-// export const AuthInitializer = ({ children }) => { ... }; (comentado o eliminado)

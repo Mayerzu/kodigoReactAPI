@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from './LoadingSpinner';
@@ -7,7 +6,7 @@ import LoadingSpinner from './LoadingSpinner';
 const LoginForm = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -21,10 +20,12 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData);
-      const { token } = response.data;
-      login(token);
-      navigate('/dashboard');
+      const result = await login(formData.username, formData.password);
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setError(result.error || 'Credenciales inválidas. Intenta nuevamente.');
+      }
     } catch (err) {
       setError('Credenciales inválidas. Intenta nuevamente.');
     } finally {
@@ -35,12 +36,12 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} className="auth-form">
       <div className="form-group">
-        <label>Email</label>
+        <label>Usuario</label>
         <input
-          type="email"
-          name="email"
-          placeholder="ejemplo@correo.com"
-          value={formData.email}
+          type="text"
+          name="username"
+          placeholder="Tu usuario"
+          value={formData.username}
           onChange={handleChange}
           required
         />
